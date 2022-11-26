@@ -25,10 +25,10 @@ class Student(Model):
     group = ForeignKey(Group,
                        on_delete=CASCADE,
                        related_name='student')
-    def save(self):
+    def save(self,*args,**kwargs):
         print('potato')
         if self.group.student.count() < self.group.capacity:
-            super().save()
+            return super().save(*args,**kwargs)
         else:
             raise SuspiciousOperation('safd')
 
