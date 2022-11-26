@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import (Model,
                               CharField,
@@ -5,6 +6,10 @@ from django.db.models import (Model,
                               )
 class Curator(Model):
     first_name = CharField(max_length=20)
+    user = ForeignKey(User,
+                      on_delete=CASCADE,
+                      related_name='curator',
+                      null=True)
     def __str__(self):
         return "курат. "+self.first_name
 
