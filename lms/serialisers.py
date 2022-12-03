@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from lms.models import Student, Curator
+from lms.models import Student, Curator, Group
 
 
 class StudentSerializer(
@@ -15,4 +15,12 @@ class CuratorSerializer(
 ):
     class Meta:
         model = Curator
+        fields = '__all__'
+
+
+class GroupSerializer(
+    serializers.ModelSerializer
+):
+    class Meta:
+        model = Group
         fields = '__all__'

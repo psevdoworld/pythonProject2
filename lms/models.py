@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import (Model,
                               CharField,
-                              ForeignKey, CASCADE, DO_NOTHING, IntegerField,
+                              ForeignKey, CASCADE, DO_NOTHING, IntegerField, ManyToManyField,
                               )
 class Curator(Model):
     first_name = CharField(max_length=20)
@@ -10,6 +10,7 @@ class Curator(Model):
                       on_delete=CASCADE,
                       related_name='curator',
                       null=True)
+    liked_me = ManyToManyField(User, related_name='liked_curator')
     def __str__(self):
         return "курат. "+self.first_name
 
@@ -26,12 +27,13 @@ class Group(Model):
                            related_name='group')
 
 class Student(Model):
-    fio = CharField(max_length=20)
+    fio = CharField(max_length=42)
     group = ForeignKey(Group,
                        on_delete=CASCADE,
                        related_name='student')
+
+
     def save(self,*args,**kwargs):
-        print('potato')
         if self.group.student.count() < self.group.capacity:
             return super().save(*args,**kwargs)
         else:
